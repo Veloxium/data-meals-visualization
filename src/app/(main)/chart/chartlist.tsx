@@ -21,6 +21,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 export default function ChartList() {
   const searchParams = useSearchParams();
@@ -88,6 +89,11 @@ export default function ChartList() {
       `/api/chartlist?page=${page}&limit=10&filter=${filter}`,
     );
     const json = await res.json();
+    if (!res.ok) {
+      toast.error("Failed to fetch data after deletion");
+      return;
+    }
+    toast.success("Meal record deleted successfully");
     setData(json.data || []);
     setPagination(json.pagination);
   };

@@ -58,6 +58,7 @@ export default function AddMeal() {
       toast.error("Failed to add meal record");
       return;
     }
+    toast.success("Meal record added successfully");
     router.push("/chart");
     router.refresh();
   };
@@ -143,7 +144,7 @@ export default function AddMeal() {
                 type="number"
                 inputMode="numeric"
                 min={0}
-                value={field.value === 0 ? "0" : field.value}
+                value={field.value === 0 ? "" : field.value}
                 onChange={(e) => {
                   const val = e.target.value;
                   if (val === "") {
@@ -168,7 +169,7 @@ export default function AddMeal() {
                 type="number"
                 inputMode="numeric"
                 min={0}
-                value={field.value === 0 ? "0" : field.value}
+                value={field.value === 0 ? "" : field.value}
                 onChange={(e) => {
                   const val = e.target.value;
                   if (val === "") {

@@ -1,3 +1,5 @@
+export const runtime = "nodejs";
+
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
@@ -62,3 +64,28 @@ export async function GET(req: Request) {
         );
     }
 }
+
+export async function POST(req: Request) {
+    try {
+        const body = await req.json();
+        const newRecord = await prisma.mealRecord.create({
+            data: {
+                typeOfMeal: body.typeOfMeal,
+                category: body.category,
+                jenis: body.jenis,
+                date: body.date,
+                qtyFrozen: body.qtyFrozen,
+                qtyFresh: body.qtyFresh,
+            },
+        });
+
+        return NextResponse.json({ data: newRecord }, { status: 201 });
+    } catch (err) {
+        console.error(err);
+        return NextResponse.json(
+            { message: "Server error" },
+            { status: 500 }
+        );
+    }
+}
+

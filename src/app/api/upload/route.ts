@@ -1,3 +1,5 @@
+export const runtime = "nodejs";
+
 import { prisma } from "@/lib/prisma";
 import { parse } from "date-fns";
 import { NextResponse } from "next/server";
