@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { Prisma } from "@prisma/client";
 
 export async function GET(req: Request) {
     try {
@@ -11,30 +10,30 @@ export async function GET(req: Request) {
 
         const skip = (page - 1) * limit;
 
-        const where: Prisma.MealRecordWhereInput = filter
+        const where = filter
             ? {
                 OR: [
                     {
                         typeOfMeal: {
                             contains: filter,
-                            mode: Prisma.QueryMode.insensitive,
+                            mode: "insensitive" as any,
                         },
                     },
                     {
                         category: {
                             contains: filter,
-                            mode: Prisma.QueryMode.insensitive,
+                            mode: "insensitive" as any,
                         },
                     },
                     {
                         jenis: {
                             contains: filter,
-                            mode: Prisma.QueryMode.insensitive,
+                            mode: "insensitive" as any,
                         },
                     },
                 ],
             }
-            : {};
+            : undefined;
 
         const [records, total] = await Promise.all([
             prisma.mealRecord.findMany({
