@@ -47,7 +47,7 @@ export async function GET(req: Request) {
             const end = new Date(selected);
             end.setHours(23, 59, 59, 999);
 
-            filtered = filtered.filter((r) => {
+            filtered = filtered.filter((r:any) => {
                 const created = new Date(r.date);
                 return created >= start && created <= end;
             });
@@ -70,7 +70,7 @@ export async function GET(req: Request) {
                 december: 11,
             };
 
-            filtered = filtered.filter((r) => {
+            filtered = filtered.filter((r:any) => {
                 const m = new Date(r.date).getMonth();
                 return m === monthMap[month.toLowerCase()];
             });
@@ -80,7 +80,7 @@ export async function GET(req: Request) {
         if (week) {
             const weekIndex = parseInt(week.split("-")[1]); // "week-2" → 2
 
-            filtered = filtered.filter((r) => {
+            filtered = filtered.filter((r:any) => {
                 const dateObj = new Date(r.date);
                 const weekOfMonth = Math.ceil(dateObj.getDate() / 7);
                 return weekOfMonth === weekIndex;
