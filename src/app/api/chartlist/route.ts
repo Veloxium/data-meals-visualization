@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { QueryMode } from "../../../../generated/prisma/internal/prismaNamespace";
+import { Prisma } from "@prisma/client";
 
 export async function GET(req: Request) {
     try {
@@ -11,12 +11,27 @@ export async function GET(req: Request) {
 
         const skip = (page - 1) * limit;
 
-        const where = filter
+        const where: Prisma.MealRecordWhereInput = filter
             ? {
                 OR: [
-                    { typeOfMeal: { contains: filter, mode: QueryMode.insensitive } },
-                    { category: { contains: filter, mode: QueryMode.insensitive } },
-                    { jenis: { contains: filter, mode: QueryMode.insensitive } },
+                    {
+                        typeOfMeal: {
+                            contains: filter,
+                            mode: Prisma.QueryMode.insensitive,
+                        },
+                    },
+                    {
+                        category: {
+                            contains: filter,
+                            mode: Prisma.QueryMode.insensitive,
+                        },
+                    },
+                    {
+                        jenis: {
+                            contains: filter,
+                            mode: Prisma.QueryMode.insensitive,
+                        },
+                    },
                 ],
             }
             : {};
@@ -48,19 +63,3 @@ export async function GET(req: Request) {
         );
     }
 }
-
-export async function POST(req: Request) {
-    try {
-        const body = await req.json();
-
-        const data = await prisma.mealRecord.create({
-            data: body,
-        });
-
-        return NextResponse.json({ data });
-    } catch (e) {
-        console.error(e);
-        return NextResponse.json({ message: "Error" }, { status: 500 });
-    }
-}
-
