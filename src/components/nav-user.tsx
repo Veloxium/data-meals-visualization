@@ -1,43 +1,34 @@
-"use client"
+"use client";
 
-import {
-  IconDotsVertical,
-  IconLogout
-} from "@tabler/icons-react"
+import { IconDotsVertical, IconLogout } from "@tabler/icons-react";
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu"
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar"
-import { redirect } from "next/navigation"
-import { UserData, useUserStore } from "@/store/user"
+} from "@/components/ui/sidebar";
+import { redirect, useRouter } from "next/navigation";
+import { UserData, useUserStore } from "@/store/user";
+import { logout } from "@/app/action/logout";
 
-export function NavUser({
-  user,
-}: {
-  user: UserData
-}) {
-  const { isMobile } = useSidebar()
+export function NavUser({ user }: { user: UserData }) {
+  const { isMobile } = useSidebar();
   const clearUser = useUserStore((state) => state.clearUser);
-  const handleLogout = () => {
-    localStorage.removeItem("token");
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await logout();
     clearUser();
-    redirect("/auth/login")
-  }
-    
+    router.replace("/auth/login");
+  };
 
   return (
     <SidebarMenu>
