@@ -32,7 +32,7 @@ export async function GET(req: Request) {
                 saturday: 6,
             };
 
-            filtered = filtered.filter((r) => {
+            filtered = filtered.filter((r:any) => {
                 const d = new Date(r.date).getDay();
                 return d === dayMap[day.toLowerCase()];
             });
